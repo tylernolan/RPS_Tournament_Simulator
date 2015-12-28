@@ -49,7 +49,6 @@ class TournamentSimulator():
 		self.players = sorted(self.players, key= lambda x : x.wins)
 		for i in range(0,len(self.players),2):
 			round.append(Pairing(self.players[i], self.players[i+1]))
-			print i
 		self.evalRound(round)
 		
 	def evalRound(self, round):

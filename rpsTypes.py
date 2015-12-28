@@ -3,6 +3,7 @@ class RPS_Type():
 		pass
 	def evaluate(self, opp):
 		pass
+		
 class Paper(RPS_Type):	
 	def __init__(self):
 		self.name = "Paper"

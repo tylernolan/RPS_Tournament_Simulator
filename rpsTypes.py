@@ -12,8 +12,10 @@ class Paper(RPS_Type):
 			return "Loss"
 		elif opp.name == "Rock":
 			return "Win"
-		else:
+		elif opp.name == "Paper":
 			return "Draw"
+		else:
+			raise BaseException("Invalid Result: self.name: {} opp.name: {}".format(self.name, opp.name))
 class Scissors(RPS_Type):	
 	def __init__(self):
 		self.name = "Scissors"
@@ -22,8 +24,10 @@ class Scissors(RPS_Type):
 			return "Win"
 		elif opp.name == "Rock":
 			return "Loss"
-		else:
+		elif opp.name == "Scissors":
 			return "Draw"
+		else:
+			raise BaseException("Invalid Result: self.name: {} opp.name: {}".format(self.name, opp.name))
 			
 class Rock(RPS_Type):
 	def __init__(self):
@@ -33,5 +37,7 @@ class Rock(RPS_Type):
 			return "Win"
 		elif opp.name == "Paper":
 			return "Loss"
-		else:
+		elif opp.name == "Rock":
 			return "Draw"
+		else:
+			raise BaseException("Invalid Result: self.name: {} opp.name: {}".format(self.name, opp.name))

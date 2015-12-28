@@ -14,18 +14,25 @@ class Pairing():
 		self.p1 = p1
 		self.p2 = p2
 		self.players = [self.p1, self.p2]
+		self.winner = None
+		
 	def evalPairing(self):
-		result = self.p1.evaluate(self.p2)
+		result = self.p1.evaluate(self.p2.name)
 		if result == "Win":
 			self.p1.wins += 1
+			self.winner = self.p1
 		elif result == "Loss":
 			self.p2.wins += 1
+			self.winner = self.p2
 		elif result == "Draw":
 			random.shuffle(self.players)
 			self.players[0].wins += 1
-			
+			self.winner = self.players[0]
+		else:
+			raise BaseException("invalid result: result: {}, p2.name: {}, p1.name: {}".format(result, p2.name, p1.name))
 	def __str__(self):
-		return "{}  {} vs {}  {}".format(self.p1.name.name, self.p1.wins, self.p2.name.name, self.p2.wins)
+		return "{}  {} vs {}  {} Winner: {}".format(self.p1.name.name, self.p1.wins, self.p2.name.name, self.p2.wins, self.winner.name.name)
+
 		
 class TournamentSimulator():
 	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10):
@@ -55,14 +62,17 @@ class TournamentSimulator():
 		
 	def evalRound(self, round, printPairings = False):
 		for pairing in round:
+			pairing.evalPairing()
 			if printPairings:
 				print pairing
-			pairing.evalPairing()
 			
 	def generateAverage(self, type):
 		total = sum(p.wins for p in self.players if p.name.name == type)
-		potential = sum(10 for p in self.players if p.name.name == type)
-		average = total / float(potential)
+		potential = sum(self.rounds for p in self.players if p.name.name == type)
+		try:
+			average = total / float(potential)
+		except:
+			average = 0
 		return average
 		
 	def getResults(self):
@@ -84,7 +94,7 @@ class TournamentSimulator():
 		
 		
 class MultipleTournamentSimulator():
-	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10, iterations = 10):
+	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10, iterations = 25):
 		self.rockWinRate = []
 		self.paperWinRate = []
 		self.scissorWinRate = []

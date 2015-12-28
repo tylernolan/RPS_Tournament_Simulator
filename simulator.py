@@ -114,5 +114,7 @@ class MultipleTournamentSimulator():
 		print "Rock Win Rate: " + str(rockAverage)
 		print "Paper Win Rate: " + str(paperAverage)
 		print "Scissor Win Rate: " + str(scissorAverage)
-ts = MultipleTournamentSimulator()
-ts.displayResults()
+		
+if __name__ == "__main__":
+	ts = MultipleTournamentSimulator()
+	ts.displayResults()

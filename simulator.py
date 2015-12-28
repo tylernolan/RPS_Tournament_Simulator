@@ -24,6 +24,9 @@ class Pairing():
 			random.shuffle(self.players)
 			self.players[0].wins += 1
 			
+	def __str__(self):
+		return "{}  {} vs {}  {}".format(self.p1.name.name, self.p1.wins, self.p2.name.name, self.p2.wins)
+		
 class TournamentSimulator():
 	def __init__(self, rocks = 45, papers =45, scissors=10, rounds=10):
 		self.players = []
@@ -53,6 +56,7 @@ class TournamentSimulator():
 		
 	def evalRound(self, round):
 		for pairing in round:
+			print pairing
 			pairing.evalPairing()
 			
 	def generateAverage(self, type):

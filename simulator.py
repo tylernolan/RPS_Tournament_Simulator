@@ -35,7 +35,7 @@ class Pairing():
 
 		
 class TournamentSimulator():
-	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10):
+	def __init__(self, rocks, papers, scissors, rounds):
 		self.players = []
 		self.rounds = rounds
 		self.rocks = rocks

@@ -28,7 +28,7 @@ class Pairing():
 		return "{}  {} vs {}  {}".format(self.p1.name.name, self.p1.wins, self.p2.name.name, self.p2.wins)
 		
 class TournamentSimulator():
-	def __init__(self, rocks = 45, papers =45, scissors=10, rounds=10):
+	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10):
 		self.players = []
 		self.rounds = rounds
 		self.rocks = rocks
@@ -44,7 +44,6 @@ class TournamentSimulator():
 		for i in range(rounds):
 			self.pairRound()
 			
-		self.displayResults()
 		
 	def pairRound(self):
 		round = []
@@ -54,9 +53,10 @@ class TournamentSimulator():
 			round.append(Pairing(self.players[i], self.players[i+1]))
 		self.evalRound(round)
 		
-	def evalRound(self, round):
+	def evalRound(self, round, printPairings = False):
 		for pairing in round:
-			print pairing
+			if printPairings:
+				print pairing
 			pairing.evalPairing()
 			
 	def generateAverage(self, type):
@@ -64,14 +64,45 @@ class TournamentSimulator():
 		potential = sum(10 for p in self.players if p.name.name == type)
 		average = total / float(potential)
 		return average
-	def displayResults(self):
-		self.players = sorted(self.players, key= lambda x : x.wins)
-		for player in self.players:
-			print str(player.name.name) + " "+str(player.wins)
-		scissorAverage = self.generateAverage("Scissors")
-		print scissorAverage
+		
+	def getResults(self):
 		rockAverage = self.generateAverage("Rock")
-		print rockAverage
 		paperAverage = self.generateAverage("Paper")
-		print paperAverage
-TournamentSimulator()
+		scissorAverage = self.generateAverage("Scissors")
+		return [rockAverage, paperAverage, scissorAverage]
+		
+	def displayResults(self, printFinalStandings = False):
+		self.players = sorted(self.players, key= lambda x : x.wins)
+		if printFinalStandings:
+			for player in self.players:
+				print str(player.name.name) + " "+str(player.wins)
+		rockAverage, paperAverage, scissorAverage = self.getResults()
+		print "Rock Average: " + str(rockAverage)
+		print "Paper Average: " + str(paperAverage)
+		print "Scissor Average: "+ str(scissorAverage)
+		
+		
+		
+class MultipleTournamentSimulator():
+	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10, iterations = 10):
+		self.rockWinRate = []
+		self.paperWinRate = []
+		self.scissorWinRate = []
+		self.iterations = iterations
+		for i in range(iterations):
+			ts = TournamentSimulator(rocks, papers, scissors, rounds)
+			results = ts.getResults()
+			self.rockWinRate.append(results[0])
+			self.paperWinRate.append(results[1])
+			self.scissorWinRate.append(results[2])
+			
+	def displayResults(self):
+		print "Averages Over {} tournaments: ".format(self.iterations)
+		rockAverage = sum(self.rockWinRate) / self.iterations
+		paperAverage = sum(self.paperWinRate) / self.iterations
+		scissorAverage = sum(self.scissorWinRate) / self.iterations
+		print "Rock Win Rate: " + str(rockAverage)
+		print "Paper Win Rate: " + str(paperAverage)
+		print "Scissor Win Rate: " + str(scissorAverage)
+ts = MultipleTournamentSimulator()
+ts.displayResults()

@@ -87,14 +87,21 @@ class TournamentSimulator():
 			for player in self.players:
 				print str(player.name.name) + " "+str(player.wins)
 		rockAverage, paperAverage, scissorAverage = self.getResults()
+		top16 = [x.name.name for x in self.players[0:16]]
+		print "top 16: "
+		print "{}   {}   {}\n{}   {}   {}\n{}   {}   {}\n{}   {}   {}\n{}   {}   {}".format(*top16)
+		#for x in top16: print x.name.name
 		print "Rock Average: " + str(rockAverage)
 		print "Paper Average: " + str(paperAverage)
 		print "Scissor Average: "+ str(scissorAverage)
+		print "Rock x-2 or better: " + str(len(list([x for x in self.players if x.wins >= self.rounds-2 and x.name.name == "Rock"])))
+		print "Paper x-2 or better: " + str(len(list([x for x in self.players if x.wins >= self.rounds-2 and x.name.name == "Paper"])))
+		print "Scissors x-2 or better: " + str(len(list([x for x in self.players if x.wins >= self.rounds-2 and x.name.name == "Scissors"])))
 		
 		
 		
 class MultipleTournamentSimulator():
-	def __init__(self, rocks = 450, papers =450, scissors=100, rounds=10, iterations = 25):
+	def __init__(self, rocks = 900, papers =900, scissors=200, rounds=12, iterations = 1):
 		self.rockWinRate = []
 		self.paperWinRate = []
 		self.scissorWinRate = []
@@ -105,6 +112,7 @@ class MultipleTournamentSimulator():
 			self.rockWinRate.append(results[0])
 			self.paperWinRate.append(results[1])
 			self.scissorWinRate.append(results[2])
+			ts.displayResults()
 			
 	def displayResults(self):
 		print "Averages Over {} tournaments: ".format(self.iterations)
